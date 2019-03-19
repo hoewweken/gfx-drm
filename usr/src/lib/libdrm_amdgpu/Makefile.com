@@ -30,7 +30,7 @@ VERS=		.1
 
 # See common/libdrm/libdrm-*/amdgpu/Makefile.in am__objects
 OBJECTS= \
-	amdgpu_bo.o amdgpu_cs.o amdgpu_device.o \
+	amdgpu_bo.o amdgpu_cs.o amdgpu_device.o amdgpu_asic_id.o \
 	amdgpu_gpu_info.o amdgpu_vamgr.o util_hash.o \
 	util_hash_table.o
 
