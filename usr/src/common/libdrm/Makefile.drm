@@ -16,7 +16,7 @@
 # This make include is used in $SRC/lib/libdrm/*
 #
 # See also: ./Makefile LIBDRM_VERS, ./Check-patches
-LIBDRM_VERS=2.4.75
+LIBDRM_VERS=2.4.83
 
 LIBDRM_CMN_DIR=$(SRC)/common/libdrm/libdrm-$(LIBDRM_VERS)
 
@@ -29,7 +29,7 @@ CPPFLAGS +=	-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 # libdrm-$(LIBDRM_VERS)/config.h.in when updating libdrm to
 # check for new ones we might need to define.
 CPPFLAGS +=	-DHAVE_ALLOCA_H
-CPPFLAGS +=	-DMAJOR_IN_MKDEV
+CPPFLAGS +=	-DMAJOR_IN_MKDEV 
 
 # Additional CPPFLAG defines in:
 #  $SRC/cmd/drm-tests/util  HAVE_CAIRO
@@ -38,6 +38,13 @@ CPPFLAGS +=	-DMAJOR_IN_MKDEV
 CPPFLAGS +=	-I$(SRC)/uts/common \
 		-I$(SRC)/uts/common/drm \
 		-I$(LIBDRM_CMN_DIR)/include/drm
+
+#libdrmdatadir = /rpool1/build/oi/oi-orig/oi-userland/components/openindiana/gfx-drm/gfx-drm/usr/src/common/libdrm/libdrm-2.4.83/data
+LIBDRM_DATA_DIR = ${LIBDRM_CMN_DIR}/data
+ASIC_ID_TABLE_NUM_ENTRIES = $(shell cd $(LIBDRM_DATA_DIR); egrep -ci '^[0-9a-f]{4},.*[0-9a-f]+,' amdgpu.ids)
+ASIC_ID_TABLE_NUM_ENTRIES = 154
+CPPFLAGS += -DAMDGPU_ASIC_ID_TABLE=\"${LIBDRM_DATA_DIR}/amdgpu.ids\" 
+CPPFLAGS += -DAMDGPU_ASIC_ID_TABLE_NUM_ENTRIES=$(ASIC_ID_TABLE_NUM_ENTRIES)
 
 # The libdrm code has lots of warnings.  Just suppress.
 CERRWARN +=	-_gcc=-Wno-parentheses
